@@ -12,7 +12,7 @@ const port = 3000;
 const rateLimit = require("express-rate-limit");
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 6 // limit each IP to 100 requests per windowMs
+  max: 2 // limit each IP to 100 requests per windowMs
 });
 
 //serve-favicon es un middleware de servicio de favicon. 
@@ -55,11 +55,6 @@ app.listen(port, () => {
   console.log(`Listening on port: ${port}`);
 });
 
-app.use(
-  favicon("favicon.ico", {
-    maxAge: 500 * 60 * 60 * 24 * 1000,
-  })
-);
 
 // whitelist
 const whitelist = ['http://localhost:3000', 'http://localhost:3001']
