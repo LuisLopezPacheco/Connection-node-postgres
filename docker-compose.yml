@@ -1,18 +1,18 @@
 version: "3.9"
 #Al utilizar docker compose se crea en automatico una nueva red
 services:
-  app:
-    image: getting-started
-    ports:
-      - 3001:3001
+  # app:
+  #   image: getting-started
+  #   ports:
+  #     - 3001:3001
   postgres2028:
     image: postgres
     ports:
       - "5706:5432"
     environment:
-       POSTGRES_PASSWORD: "postgres"
-       POSTGRES_USER: "postgres"
-       POSTGRES_DB: "db4"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_DB: "db5"
     volumes:
       # copy the sql script to create tables
       - ./sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql

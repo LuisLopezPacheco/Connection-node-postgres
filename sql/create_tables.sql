@@ -1,3 +1,9 @@
+CREATE TABLE IF NOT EXISTS tablestatus (
+  status_id SERIAL,
+  name varchar(20) NOT NULL,
+  PRIMARY KEY (status_id)
+);
+
 -- Creation of product table
 CREATE TABLE IF NOT EXISTS users (
    user_id SERIAL,
@@ -9,11 +15,6 @@ CREATE TABLE IF NOT EXISTS users (
    FOREIGN key (status_id) REFERENCES tablestatus(status_id)
 );
 
-CREATE TABLE IF NOT EXISTS tablestatus (
-  status_id SERIAL,
-  name varchar(20) NOT NULL,
-  PRIMARY KEY (status_id)
-);
 
 create or replace function public.fn_create_user(fn_name varchar, fn_email varchar, fn_password varchar)
 returns int
