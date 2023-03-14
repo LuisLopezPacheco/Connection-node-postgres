@@ -103,7 +103,6 @@ begin
 end;
 $$;
 
-
 create or replace function public.fn_getEmail_user(fn_email varchar)
 returns int
 language plpgsql

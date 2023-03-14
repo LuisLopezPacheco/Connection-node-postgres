@@ -3,7 +3,7 @@ const express = require("express");
 //antes que sus controladores, disponibles en la propiedad req.body.
 const bodyParser = require("body-parser");
 
-const db = require('./queries')
+
 // Port
 const port = 3000;
 
@@ -11,6 +11,8 @@ const app = express();
 
 app.use(express.json())    // <==== parse request body as JSON
 app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }))
+const db = require('./queries')
 
 app.use(
   bodyParser.urlencoded({

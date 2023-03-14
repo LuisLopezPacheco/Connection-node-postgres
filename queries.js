@@ -36,33 +36,56 @@ const createUser = async (request, response) => {
   const query = `select * from public.fn_create_user('${name}', '${email}', '${password}'); `;
   console.log(name + '' + email + password);
   try {
-    pool.query(query).then(() => {
-    console.log("ok")
-  })
-    .catch(error => {
-      console.log(error)
-    });
-  response.status(201).send(`User added with ID: ${res[0]}`)
-  } 
+    const ress = await pool.query(query).then(() => {
+      console.log("ok")
+    })
+      .catch(error => {
+        console.log(error)
+      });
+    response.status(201).send(`User added with ID: ${res[0]}`)
+  }
   catch (e) {
     console.log(e)
   }
 }
 
-const updateUser = (request, response) => {
-  const id = parseInt(request.params.id)
-  const { name, email, password, estatus } = request.body
+// const UserbyEmail = async (req, res, netx) => {
+//   const email = (request.headers.email)
+//   const query = `select * from public.fn_getEmail_user($1)`;
+//   try {
+//     const ress = await pool.query(query, [data]).then(() => {
+//       console.log("ok")
+//     })
+//       .catch(error => {
+//         console.log(error)
+//       });
+//     response.status(201).send(`User added with ID: ${res[0]}`)
+//     netx();
+//   }
+//   catch (e) {
+//     console.log(e)
+//   }
+// }
 
-  pool.query(
-    'UPDATE user SET name = $1, email_user = $2, password = $3, status_id = $4 WHERE  user_id = $5',
-    [name, email_user, password, estatus, id],
-    (error, results) => {
-      if (error) {
-        throw error
-      }
-      response.status(200).send(`User modified with ID: ${id}`)
-    }
-  )
+const updateUser = async (request, response) => {
+  const res = '';
+  const id = parseInt(request.params.id);
+  const { name, email_user, password, estatus } = request.body;
+  const query = `select * from public.fn_update_user(${id},'${name.toString()}', '${email_user.toString()}', '${password.toString()}',${parseInt(estatus)});`
+  // const query = 'UPDATE user SET name = $1, email_user = $2, password = $3, status_id = $4 WHERE  user_id = $5';
+  try {
+    const ress = await pool.query(query).then(() => {
+      console.log("ok")
+    })
+      .catch(error => {
+        console.log(error)
+      });
+    response.status(201).send(`User added with ID: ${res[0]}`)
+   
+  }
+  catch (e) {
+    console.log(e)
+  }
 }
 
 const deleteUser = (request, response) => {
@@ -74,8 +97,6 @@ const deleteUser = (request, response) => {
     response.status(200).send(`User deleted with ID: ${id}`)
   })
 }
-
-
 
 module.exports = {
   getUsers,
