@@ -73,7 +73,7 @@ end;
 $$;
 
 Insert into tablestatus (name) values ('Activo');
-Insert into tablestatus (name) values ('Inactivivo');
+Insert into tablestatus (name) values ('Inactivo');
 Insert into tablestatus (name) values ('Eliminado');
 
 select * from public.fn_create_user('Luis', 'luis@gmail.com', 'dddd');
@@ -103,15 +103,63 @@ begin
 end;
 $$;
 
-create or replace function public.fn_getEmail_user(fn_email varchar)
-returns int
-language plpgsql
-as
-$$
-declare
-begin
-	return (select count(*) from users where email_user = fn_email);
-end;
-$$;
+
+-- Retornar una fila de una tabla
+-- CREATE FUNCTION get_employee_details(employee_id integer)
+-- RETURNS SETOF record AS $$
+-- DECLARE
+--   employee record;
+-- BEGIN
+--   SELECT * INTO employee FROM employees WHERE id = employee_id;
+--   RETURN NEXT employee;
+-- END;
+-- $$ LANGUAGE plpgsql;
+
+-- CREATE OR REPLACE FUNCTION buscar_usuario(email_usuario TEXT)
+-- RETURNS SETOF usuarios AS
+-- $$
+-- BEGIN
+--     RETURN QUERY SELECT * FROM usuarios WHERE email = email_usuario;
+--     IF NOT FOUND THEN
+--         RETURN QUERY SELECT 0::integer, null::text, null::text; --Retorna una fila con ceros si no se encuentra el usuario
+--     END IF;
+-- END;
+-- $$
+-- LANGUAGE plpgsql;
+
+-- CREATE OR REPLACE FUNCTION existe_usuario(email_usuario TEXT)
+-- RETURNS INTEGER AS
+-- $$
+-- DECLARE
+--     existe BOOLEAN;
+-- BEGIN
+--     SELECT EXISTS(SELECT 1 FROM usuarios WHERE email = email_usuario) INTO existe;
+--     IF existe THEN
+--         RETURN 1;
+--     ELSE
+--         RETURN 0;
+--     END IF;
+-- END;
+-- $$
+-- LANGUAGE plpgsql;
 
 
+-- create or replace function public.fn_getEmail_user(fn_email varchar)
+-- returns int
+-- language plpgsql
+-- as
+-- $$
+-- declare
+-- begin
+-- 	return (select count(*) from users where email_user = fn_email);
+-- end;
+-- $$;
+
+CREATE OR REPLACE FUNCTION autentificar_usuario(email varchar, contrasena varchar)
+RETURNS TABLE (id INTEGER, names varchar, email_users varchar, status_ids int, passwords varchar) AS $$
+BEGIN
+    RETURN QUERY SELECT user_id, name, email_user, status_id, password FROM users
+        --WHERE email_user = email AND password = crypt(contrasena, contrasena);
+		WHERE email_user = email AND password = contrasena;
+END;
+$$ LANGUAGE plpgsql;
